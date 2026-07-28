@@ -4,6 +4,7 @@ import com.keyin.golfclub.model.Member;
 import com.keyin.golfclub.repository.MemberRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -19,6 +20,26 @@ public class MemberController {
     @GetMapping
     public List<Member> getAllMembers() {
         return memberRepository.findAll();
+    }
+
+    @GetMapping("/search/name/{name}")
+    public List<Member> searchByName(@PathVariable String name) {
+        return memberRepository.findByMemberNameContainingIgnoreCase(name);
+    }
+
+    @GetMapping("/search/type/{type}")
+    public List<Member> searchByMembershipType(@PathVariable String type) {
+        return memberRepository.findByMembershipTypeIgnoreCase(type);
+    }
+
+    @GetMapping("/search/phone/{phone}")
+    public List<Member> searchByPhone(@PathVariable String phone) {
+        return memberRepository.findByMemberPhoneNumber(phone);
+    }
+
+    @GetMapping("/search/tournament-date/{startDate}")
+    public List<Member> searchByTournamentDate(@PathVariable LocalDate startDate) {
+        return memberRepository.findByTournamentsStartDate(startDate);
     }
 
     @GetMapping("/{id}")
