@@ -5,7 +5,7 @@ allows users to add and view members, create and view tournaments, register memb
 for members and tournaments using different search options.
 
 ## Screenshots
-All screenshots for the project are available in the [Screenshots](Screenshots) folder.
+All screenshots for the project are available in the [Screenshots](golfclub/Screenshots) folder.
 
 ## Search Endpoints
 
