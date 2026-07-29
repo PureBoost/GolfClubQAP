@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: golfclub-mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: golfclub
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - golfclub-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    image: golfclub-api:latest
+    container_name: golfclub-api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/golfclub
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - golfclub-network
+
+volumes:
+  mysql_data:
+
+networks:
+  golfclub-network:
+    driver: bridge
